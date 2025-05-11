@@ -6,25 +6,6 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
-    inputs:
-      environment:
-        description: '배포할 환경'
-        required: true
-        default: 'dev'
-        type: choice
-        options:
-          - dev
-          - staging
-          - prod
-      terraform_action:
-        description: 'Terraform 작업'
-        required: true
-        default: 'apply'
-        type: choice
-        options:
-          - apply
-          - plan
-          - destroy
 
 jobs:
   terraform:
@@ -57,23 +38,16 @@ jobs:
       run: terraform fmt -check
 
     - name: Terraform Plan
-      if: github.event.inputs.terraform_action != 'destroy' || github.event_name != 'workflow_dispatch'
-      run: terraform plan -input=false -var="environment=${{ github.event.inputs.environment || 'dev' }}"
+      run: terraform plan -input=false
       
     - name: Terraform Apply
-      if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && github.event.inputs.terraform_action == 'apply')
-      run: terraform apply -auto-approve -input=false -var="environment=${{ github.event.inputs.environment || 'dev' }}"
-      
-    - name: Terraform Destroy
-      if: github.event_name == 'workflow_dispatch' && github.event.inputs.terraform_action == 'destroy'
-      run: terraform destroy -auto-approve -input=false -var="environment=${{ github.event.inputs.environment || 'dev' }}"
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      run: terraform apply -auto-approve -input=false
       
   build-and-deploy:
     name: 'Build and Deploy Application'
     needs: terraform
     runs-on: ubuntu-latest
-    # Terraform destroy 작업 시에는 애플리케이션 배포 생략
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.terraform_action != 'destroy'
     
     steps:
     - name: Checkout
@@ -96,9 +70,8 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         IMAGE_TAG: ${{ github.sha }}
-        ENVIRONMENT: ${{ github.event.inputs.environment || 'dev' }}
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg ENV=$ENVIRONMENT .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         
     - name: Update kubeconfig
@@ -110,7 +83,6 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         IMAGE_TAG: ${{ github.sha }}
-        ENVIRONMENT: ${{ github.event.inputs.environment || 'dev' }}
       run: |
         sed -i "s|IMAGE_PLACEHOLDER|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" deployment.yaml
         kubectl apply -f .
