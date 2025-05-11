@@ -1,0 +1,51 @@
+# Terraform 파일
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# 로컬 .terraform 디렉토리
+**/.terraform/*
+
+# 상태 파일 백업
+*.tfstate.backup
+*.tfstate.*.backup
+
+# 크래시 로그
+crash.log
+crash.*.log
+
+# 실수로 커밋하지 않도록 하려는 .tfvars 파일들
+example.tfvars
+terraform.tfvars
+*.auto.tfvars
+
+# CLI 설정 파일
+.terraformrc
+terraform.rc
+
+# 로그 파일
+*.log
+
+# IDE 및 편집기 파일
+.idea/
+*.swp
+*.swo
+.vscode/
+*.sublime-workspace
+
+# OS 생성 파일
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

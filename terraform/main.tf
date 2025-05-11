@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"  # 더 유연한 버전 제약 사용
+    }
+  }
+}
+
 provider "aws" {
   region = var.region
 }
@@ -5,7 +14,7 @@ provider "aws" {
 # VPC 생성
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 3.0"
+  version = "~> 5.0"
 
   name = var.vpc_name
   cidr = var.vpc_cidr
@@ -34,7 +43,7 @@ module "vpc" {
 # EKS 클러스터 생성
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 18.0"
+  version = "~> 19.0"  # 호환성을 위해 19 버전으로 조정
 
   cluster_name    = var.cluster_name
   cluster_version = var.kubernetes_version
