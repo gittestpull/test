@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: spring-boot-app
 spec:
-  type: LoadBalancer # LoadBalancer에서 ClusterIP로 변경
+  type: ClusterIP # LoadBalancer에서 ClusterIP로 변경
   ports:
   - port: 80
     targetPort: 8080
