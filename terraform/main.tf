@@ -51,6 +51,14 @@ module "eks" {
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
 
+  # API 서버 엔드포인트 액세스 설정 추가
+  cluster_endpoint_public_access  = true   # 퍼블릭 액세스 활성화
+  cluster_endpoint_private_access = true   # 프라이빗 액세스도 유지
+
+  # 필요한 경우 특정 CIDR에서만 접근 허용
+  # cluster_endpoint_public_access_cidrs = ["your-ip/32"]
+
+
   eks_managed_node_groups = {
     main = {
       desired_size = var.desired_nodes
