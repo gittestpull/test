@@ -22,7 +22,7 @@ spec:
               - key: eks.amazonaws.com/nodegroup
                 operator: In
                 values:
-                - main-2025051123095666940000000a
+                - main
       containers:
       - name: spring-boot-app
         image: IMAGE_PLACEHOLDER
