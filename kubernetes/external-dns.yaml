@@ -3,6 +3,8 @@ kind: ServiceAccount
 metadata:
   name: external-dns
   namespace: kube-system
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::634835101857:role/external-dns-role # IAM 역할 ARN 연결
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -55,7 +57,7 @@ spec:
         args:
         - --source=service
         - --source=ingress
-        - --domain-filter=forspacelab.com # test.forspace.com 도메인이 속한 호스팅 영역 필터
+        - --domain-filter=forspacelab.com # test.forspacelab.com 도메인이 속한 호스팅 영역 필터
         - --provider=aws
         - --policy=upsert-only
         - --aws-zone-type=public
