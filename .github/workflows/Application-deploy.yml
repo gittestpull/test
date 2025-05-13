@@ -3,8 +3,12 @@ name: Deploy Application
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'kubernetes/**'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'kubernetes/**'    
   workflow_dispatch:
 
 jobs:
