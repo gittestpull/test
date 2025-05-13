@@ -5,10 +5,13 @@ on:
     branches: [ main ]
     paths:
       - 'kubernetes/**'
+      - 'app/**'
+
   pull_request:
     branches: [ main ]
     paths:
-      - 'kubernetes/**'    
+      - 'kubernetes/**'
+      - 'app/**'
   workflow_dispatch:
 
 jobs:
