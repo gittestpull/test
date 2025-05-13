@@ -20,15 +20,9 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
-      # 백엔드 설정 주석 처리
-      - name: Comment out backend config
-        run: |
-          cd terraform
-          sed -i '1,17s/^/#/' main.tf
-
       # 백엔드 리소스만 생성
       - name: Initialize Terraform
-        run: cd terraform && terraform init 
+        run: cd terraform_backend_setup && terraform init 
 
       - name: Create backend resources
         run: |
