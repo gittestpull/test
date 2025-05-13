@@ -122,7 +122,7 @@ module "eks" {
   # API 서버 엔드포인트 액세스 설정 추가
   cluster_endpoint_public_access  = true
   cluster_endpoint_private_access = true
-  
+
   # 클러스터 생성자에게 자동으로 관리자 권한 부여
   enable_cluster_creator_admin_permissions = true
 
@@ -131,6 +131,10 @@ module "eks" {
 
   eks_managed_node_groups = {
     main = {
+
+      name            = "main" # 명시적인 이름 설정
+      use_name_prefix = false  # 접두어 사용 비활성화
+
       desired_size = var.desired_nodes
       min_size     = var.min_nodes
       max_size     = var.max_nodes
@@ -158,7 +162,7 @@ module "eks" {
         Environment = "dev"
       }
     }
-    
+
     app = {
       name = "applications"
       selectors = [
@@ -169,7 +173,7 @@ module "eks" {
       subnet_ids = module.vpc.private_subnets
     }
   }
-  
+
   tags = var.tags
 }
 
@@ -216,20 +220,20 @@ resource "aws_ecr_repository" "app" {
 # module "iam_assumable_role_with_oidc" {
 #   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
 #   version = "~> 4.0"
-  
+
 #   create_role                   = true
 #   role_name                     = "eks-s3-access-role"
 #   provider_url                  = module.eks.cluster_oidc_issuer_url
 #   role_policy_arns              = [aws_iam_policy.s3_access.arn]
 #   oidc_fully_qualified_subjects = ["system:serviceaccount:applications:s3-service-account"]
-  
+
 #   tags = var.tags
 # }
 
 # # 서비스 계정 Kubernetes 리소스 생성을 위한 manifest
 # resource "kubernetes_service_account" "s3_service_account" {
 #   depends_on = [module.eks]
-  
+
 #   metadata {
 #     name      = "s3-service-account"
 #     namespace = "applications"
@@ -242,7 +246,7 @@ resource "aws_ecr_repository" "app" {
 # # applications 네임스페이스 생성
 # resource "kubernetes_namespace" "applications" {
 #   depends_on = [module.eks]
-  
+
 #   metadata {
 #     name = "applications"
 #   }
@@ -251,7 +255,7 @@ resource "aws_ecr_repository" "app" {
 # # 샘플 Pod에서 S3 접근 시연을 위한 Deployment 예제
 # resource "kubernetes_deployment" "s3_example" {
 #   depends_on = [kubernetes_service_account.s3_service_account]
-  
+
 #   metadata {
 #     name      = "s3-example"
 #     namespace = "applications"
@@ -275,13 +279,13 @@ resource "aws_ecr_repository" "app" {
 
 #       spec {
 #         service_account_name = "s3-service-account"
-        
+
 #         container {
 #           name  = "s3-example"
 #           image = "amazon/aws-cli:latest"
-          
+
 #           command = ["/bin/sh", "-c", "while true; do aws s3 ls s3://eks-app-storage-634835101857; sleep 30; done"]
-          
+
 #           env {
 #             name  = "AWS_REGION"
 #             value = var.region
