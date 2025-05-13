@@ -27,6 +27,6 @@ jobs:
       - name: Create backend resources
         run: |
           cd terraform
-          terraform apply -auto-approve -target=aws_s3_bucket.terraform_state -target=aws_s3_bucket_versioning.versioning -target=aws_s3_bucket_server_side_encryption_configuration.encryption -target=aws_dynamodb_table.terraform_locks
+          terraform apply -auto-approve
 
       # 이 워크플로우를 실행하면 이제 백엔드 리소스가 생성되었습니다!

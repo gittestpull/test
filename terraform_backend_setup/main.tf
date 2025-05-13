@@ -1,9 +1,9 @@
 
 provider "aws" {
-  region = var.region
+  region = "ap-northeast-2"
 }
 
-S3 버킷 생성 (Terraform 상태용)
+#S3 버킷 생성 (Terraform 상태용)
 resource "aws_s3_bucket" "terraform_state" {
   bucket = "terraform-state-eks-cluster-634835101857"
 
@@ -11,9 +11,6 @@ resource "aws_s3_bucket" "terraform_state" {
     prevent_destroy = true
   }
 
-  tags = merge(var.tags, {
-    Name = "Terraform State"
-  })
 }
 
 resource "aws_s3_bucket_versioning" "versioning" {
@@ -44,18 +41,12 @@ resource "aws_dynamodb_table" "terraform_locks" {
     type = "S"
   }
 
-  tags = merge(var.tags, {
-    Name = "Terraform Locks"
-  })
 }
 
 # 애플리케이션용 S3 버킷 생성
 resource "aws_s3_bucket" "app_storage" {
   bucket = "eks-app-storage-634835101857"
 
-  tags = merge(var.tags, {
-    Name = "EKS Application Storage"
-  })
 }
 
 resource "aws_s3_bucket_versioning" "app_versioning" {
