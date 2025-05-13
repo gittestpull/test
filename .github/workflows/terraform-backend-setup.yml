@@ -26,7 +26,7 @@ jobs:
 
       - name: Create backend resources
         run: |
-          cd terraform
+          cd terraform_backend_setup
           terraform apply -auto-approve
 
       # 이 워크플로우를 실행하면 이제 백엔드 리소스가 생성되었습니다!
