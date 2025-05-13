@@ -19,14 +19,8 @@
 
 - AWS 계정
 - GitHub 계정
-- 다음 GitHub Secrets 설정:
-  - AWS_ACCESS_KEY_ID
-  - AWS_SECRET_ACCESS_KEY
-  - AWS_REGION
-  - ECR_REPOSITORY
-  - EKS_CLUSTER_NAME
-  - ECR_REPO_NAME
-  - REPO_PATH
+- 환경 변수
+  - 하기 GitHub Secrets 설정 스크립트 참조
 
 ## 배포 방법
 
@@ -37,12 +31,12 @@
 ## CI/CD 파이프라인
 
 1. terraform-backend-setup.yml (초기 설정 시 1회)
-**초기 설정**: Terraform Backend를 설정합니다. 이 단계는 AWS S3와 DynamoDB를 사용하여 Terraform 상태 파일을 관리합니다.
+- **초기 설정**: Terraform Backend를 설정합니다. 이 단계는 AWS S3와 DynamoDB를 사용하여 Terraform 상태 파일을 관리합니다.
 2. terraform-deploy.yml (인프라 구축)
-**인프라 구축**: Terraform을 사용하여 AWS EKS 클러스터 및 관련 리소스를 생성합니다.
+- **인프라 구축**: Terraform을 사용하여 AWS EKS 클러스터 및 관련 리소스를 생성합니다.
 3. Application-deploy.yml (애플리케이션 배포)
-**이미지 빌드 및 푸시**: Spring Boot 애플리케이션을 빌드하고 Docker 이미지로 패키징한 후 ECR에 푸시합니다.
-**애플리케이션 배포**: 빌드된 이미지를 EKS 클러스터에 배포합니다.
+- **이미지 빌드 및 푸시**: Spring Boot 애플리케이션을 빌드하고 Docker 이미지로 패키징한 후 ECR에 푸시합니다.
+- **애플리케이션 배포**: 빌드된 이미지를 EKS 클러스터에 배포합니다.
 
 이 3단계 분리 구조는 각 단계의 독립적인 실행과 문제 발생 시 쉬운 디버깅을 가능하게 합니다.
 
