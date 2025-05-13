@@ -25,7 +25,7 @@ spec:
                 - main
       containers:
       - name: spring-boot-app
-        image: IMAGE_PLACEHOLDER
+        image: IMAGE_PLACEHOLDER_IMSI
         ports:
         - containerPort: 8080
         resources:

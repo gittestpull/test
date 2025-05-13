@@ -1,4 +1,4 @@
-name: Deploy Application
+name: K8S Deploy Application
 
 on:
   push:
