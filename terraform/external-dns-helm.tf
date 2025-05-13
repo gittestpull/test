@@ -1,10 +1,10 @@
 # External DNS 설치
 resource "helm_release" "external_dns" {
   name       = "external-dns"
-  repository = "https://kubernetes-sigs.github.io/external-dns/"  # 변경된 저장소
+  repository = "https://kubernetes-sigs.github.io/external-dns/"
   chart      = "external-dns"
   namespace  = "kube-system"
-  # 버전은 지정하지 않으면 최신 버전 사용 (또는 최신 안정 버전 확인 후 지정)
+  
   set {
     name  = "provider"
     value = "aws"
@@ -78,8 +78,11 @@ resource "helm_release" "external_dns" {
     value = "\"true\""
   }
 
+  # EKS 클러스터와 노드 그룹이 완전히 생성된 후에 실행되도록 설정
   depends_on = [
     module.eks,
-    aws_iam_role_policy_attachment.external_dns
+    aws_iam_role_policy_attachment.external_dns,
+    module.eks.eks_managed_node_groups,
+    kubernetes_service_account.lb_controller_sa
   ]
 }

@@ -1,11 +1,3 @@
-data "aws_eks_cluster" "main" {
-  name = var.cluster_name
-  depends_on = [
-    module.eks,
-    aws_iam_role_policy_attachment.external_dns
-  ]
-}
-
 # AWS Load Balancer Controller IAM 역할
 resource "aws_iam_role" "lb_controller_role" {
   name = "${var.cluster_name}-lb-controller"
@@ -96,7 +88,6 @@ resource "helm_release" "aws_load_balancer_controller" {
     value = var.region
   }
 
-  # 디버깅에 도움이 됨
   set {
     name  = "enableShield"
     value = "false"
@@ -112,11 +103,11 @@ resource "helm_release" "aws_load_balancer_controller" {
     value = "false"
   }
 
+  # EKS 클러스터와 서비스 계정, IAM 역할이 완전히 생성된 후에 실행되도록 설정
   depends_on = [
     module.eks,
-    # kubernetes_service_account.lb_controller_sa,
-    # aws_iam_role_policy_attachment.lb_controller_attach
+    kubernetes_service_account.lb_controller_sa,
+    aws_iam_role_policy_attachment.lb_controller_attach,
+    module.eks.eks_managed_node_groups
   ]
 }
-
-data "aws_caller_identity" "current" {}
