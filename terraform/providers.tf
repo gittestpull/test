@@ -1,5 +1,3 @@
-
-# Kubernetes provider 구성
 provider "kubernetes" {
   host                   = module.eks.cluster_endpoint
   cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
@@ -7,11 +5,10 @@ provider "kubernetes" {
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
     command     = "aws"
-    args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_id, "--region", var.region]
+    args        = ["eks", "get-token", "--cluster-name", var.cluster_name, "--region", var.region]
   }
 }
 
-# Helm provider 구성
 provider "helm" {
   kubernetes {
     host                   = module.eks.cluster_endpoint
@@ -20,7 +17,7 @@ provider "helm" {
     exec {
       api_version = "client.authentication.k8s.io/v1beta1"
       command     = "aws"
-      args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_id, "--region", var.region]
+      args        = ["eks", "get-token", "--cluster-name", var.cluster_name, "--region", var.region]
     }
   }
 }
