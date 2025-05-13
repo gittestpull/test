@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: spring-boot-ingress
-  namespace: applications
+  # namespace: applications
   annotations:
     # kubernetes.io/ingress.class: alb  # 이 줄 제거 또는 주석 처리
     alb.ingress.kubernetes.io/scheme: internet-facing

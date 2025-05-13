@@ -145,34 +145,34 @@ module "eks" {
       subnet_ids = module.vpc.private_subnets
     }
   }
-  # Fargate 프로필 설정
-  fargate_profiles = {
-    default = {
-      name = "default"
-      selectors = [
-        {
-          namespace = "default"
-        },
-        {
-          namespace = "kube-system"
-        }
-      ]
-      subnet_ids = module.vpc.private_subnets
-      tags = {
-        Environment = "dev"
-      }
-    }
+#   # Fargate 프로필 설정
+#   fargate_profiles = {
+#     default = {
+#       name = "default"
+#       selectors = [
+#         {
+#           namespace = "default"
+#         },
+#         {
+#           namespace = "kube-system"
+#         }
+#       ]
+#       subnet_ids = module.vpc.private_subnets
+#       tags = {
+#         Environment = "dev"
+#       }
+#     }
 
-    app = {
-      name = "applications"
-      selectors = [
-        {
-          namespace = "applications"
-        }
-      ]
-      subnet_ids = module.vpc.private_subnets
-    }
-  }
+#     app = {
+#       name = "applications"
+#       selectors = [
+#         {
+#           namespace = "applications"
+#         }
+#       ]
+#       subnet_ids = module.vpc.private_subnets
+#     }
+#   }
 
   tags = var.tags
 }
