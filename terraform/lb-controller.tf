@@ -1,6 +1,6 @@
 data "aws_eks_cluster" "main" {
   name = var.cluster_name
-depends_on = [
+  depends_on = [
     module.eks,
     aws_iam_role_policy_attachment.external_dns
   ]
