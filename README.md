@@ -34,7 +34,7 @@
 - **초기 설정**: Terraform Backend를 설정합니다. 이 단계는 AWS S3와 DynamoDB를 사용하여 Terraform 상태 파일을 관리합니다.
 2. terraform-deploy.yml (인프라 구축)
 - **인프라 구축**: Terraform을 사용하여 AWS EKS 클러스터 및 관련 리소스를 생성합니다.
-3. Application-deploy.yml (애플리케이션 배포)
+3. k8s-application-deploy.yml (애플리케이션 배포)
 - **이미지 빌드 및 푸시**: Spring Boot 애플리케이션을 빌드하고 Docker 이미지로 패키징한 후 ECR에 푸시합니다.
 - **애플리케이션 배포**: 빌드된 이미지를 EKS 클러스터에 배포합니다.
 
