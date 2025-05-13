@@ -30,7 +30,7 @@ jobs:
 
       # 여기서는 S3 버킷이 이미 존재한다고 가정합니다
       - name: Initialize Terraform with S3 Backend
-        run: cd terraform && terraform init
+        run: cd terraform && terraform init -migrate-state
 
       - name: Terraform Plan
         run: cd terraform && terraform plan
