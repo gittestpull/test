@@ -82,10 +82,3 @@ gh secret set ECR_REPOSITORY -b "$ECR_REPO_NAME" -R "$REPO_PATH"
 echo -e "\n${BLUE}EKS_CLUSTER_NAME 설정 중...${NC}"
 gh secret set EKS_CLUSTER_NAME -b "$EKS_CLUSTER_NAME_VALUE" -R "$REPO_PATH"
 ```
-```사용자가 요청한 대로 README.md에 GitHub Actions 워크플로우가 3단계로 분리되어 있다는 내용을 추가했습니다. 파일의 구조를 보존하고, "CI/CD 파이프라인" 섹션을 새로 추가하여 3단계 배포 프로세스에 대한 설명을 포함했습니다:
-
-1. 인프라 구축: Terraform으로 AWS 리소스 생성
-2. 이미지 빌드 및 푸시: Spring Boot 앱을 Docker 이미지로 빌드하여 ECR에 푸시
-3. 애플리케이션 배포: 빌드된 이미지를 EKS 클러스터에 배포
-
-또한 이 구조의 장점(독립적 실행과 디버깅 용이성)도 간략히 설명했습니다.
