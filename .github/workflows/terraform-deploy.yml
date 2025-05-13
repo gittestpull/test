@@ -33,8 +33,20 @@ jobs:
         run: cd terraform && terraform init -migrate-state
 
       - name: Terraform Plan
-        run: cd terraform && terraform plan
-
+      - name: Terraform Plan
+        run: |
+          cd terraform
+          terraform plan \
+            -var="region=${{ secrets.AWS_REGION }}" \
+            -var="cluster_name=${{ secrets.EKS_CLUSTER_NAME }}" \
+            -var="ecr_repository_name=${{ secrets.ECR_REPOSITORY }}" \
+            -var="acm_certificate_arn=${{ secrets.ACM_CERTIFICATE_ARN }}" \
+            -var="domain_name=${{ secrets.DOMAIN_NAME }}" \
+            -var="hosted_zone_name=${{ secrets.HOSTED_ZONE_NAME }}" \
+            -out=tfplan
+          
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
-        run: cd terraform && terraform apply -auto-approve
+        run: |
+          cd terraform
+          terraform apply -auto-approve tfplan

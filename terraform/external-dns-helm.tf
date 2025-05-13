@@ -17,7 +17,7 @@ resource "helm_release" "external_dns" {
 
   set {
     name  = "domainFilters[0]"
-    value = "forspacelab.com"
+    value = var.hosted_zone_name
   }
   
   set {

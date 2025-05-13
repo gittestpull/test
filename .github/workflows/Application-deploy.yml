@@ -62,6 +62,10 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
         IMAGE_TAG: ${{ github.sha }}
+        ACM_CERTIFICATE_ARN: ${{ secrets.ACM_CERTIFICATE_ARN }}
+        DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
       run: |
-        sed -i "s|IMAGE_PLACEHOLDER|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" deployment.yaml
+        sed -i "s|IMAGE_PLACEHOLDER_IMSI|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" deployment.yaml
+        sed -i "s|ACM_CERTIFICATE_ARN_IMSI|$ACM_CERTIFICATE_ARN|g" ingress.yaml
+        sed -i "s|DOMAIN_NAME_IMSI|$DOMAIN_NAME|g" ingress.yaml
         kubectl apply -f .

@@ -70,6 +70,9 @@ AWS_SECRET_KEY="your-secret"
 AWS_REGION_VALUE="ap-northeast-2"
 ECR_REPO_NAME="spring-boot-app"
 EKS_CLUSTER_NAME_VALUE="eks-cluster"
+HOSTED_ZONE_NAME="your-hosted-zone-name"
+DOMAIN_NAME="your-domain-name"
+ACM_CERTIFICATE_ARN="your-acm-certificate-arn"
 
 echo -e "\n${BLUE}AWS_ACCESS_KEY_ID 설정 중...${NC}"
 gh secret set AWS_ACCESS_KEY_ID -b "$AWS_ACCESS_KEY" -R "$REPO_PATH"
@@ -85,4 +88,15 @@ gh secret set ECR_REPOSITORY -b "$ECR_REPO_NAME" -R "$REPO_PATH"
 
 echo -e "\n${BLUE}EKS_CLUSTER_NAME 설정 중...${NC}"
 gh secret set EKS_CLUSTER_NAME -b "$EKS_CLUSTER_NAME_VALUE" -R "$REPO_PATH"
+
+echo -e "\n${BLUE}HOSTED_ZONE_NAME 설정 중...${NC}"
+gh secret set HOSTED_ZONE_NAME -b "$HOSTED_ZONE_NAME" -R "$REPO_PATH"
+
+echo -e "\n${BLUE}DOMAIN_NAME 설정 중...${NC}"
+gh secret set DOMAIN_NAME -b "$DOMAIN_NAME" -R "$REPO_PATH"
+
+echo -e "\n${BLUE}ACM_CERTIFICATE_ARN 설정 중...${NC}"
+gh secret set ACM_CERTIFICATE_ARN -b "$ACM_CERTIFICATE_ARN" -R "$REPO_PATH"
+
+echo -e "\n${GREEN}모든 시크릿 설정이 완료되었습니다.${NC}"
 ```

@@ -2,19 +2,17 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: spring-boot-ingress
-  # namespace: applications
   annotations:
-    # kubernetes.io/ingress.class: alb  # 이 줄 제거 또는 주석 처리
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:634835101857:certificate/fa33da7b-f05d-4d87-accf-e8b1886e7db8
+    alb.ingress.kubernetes.io/certificate-arn: ACM_CERTIFICATE_ARN_IMSI
     alb.ingress.kubernetes.io/ssl-redirect: '443'
-    external-dns.alpha.kubernetes.io/hostname: test-k8s.forspacelab.com
+    external-dns.alpha.kubernetes.io/hostname: DOMAIN_NAME_IMSI
 spec:
   ingressClassName: alb # 이 줄 추가
   rules:
-  - host: test-k8s.forspacelab.com
+  - host: DOMAIN_NAME_IMSI
     http:
       paths:
       - path: /

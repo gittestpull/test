@@ -84,3 +84,21 @@ variable "tags" {
     ManagedBy   = "terraform"
   }
 }
+
+variable "acm_certificate_arn" {
+  description = "ARN of the ACM certificate"
+  type        = string
+  default     = "" # GitHub Secrets에서 값을 제공할 것이므로 기본값은 빈 문자열
+}
+
+variable "domain_name" {
+  description = "Domain name for the application"
+  type        = string
+  default     = "" # GitHub Secrets에서 값을 제공할 것이므로 기본값은 빈 문자열
+}
+
+variable "hosted_zone_name" {
+  description = "hosted zone name"
+  type        = string
+  default     = "" # GitHub Secrets에서 값을 제공할 것이므로 기본값은 빈 문자열
+}
