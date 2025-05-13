@@ -13,8 +13,9 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::634835101857:role/github-actions-role
-          aws-region: ap-northeast-2
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
@@ -32,7 +33,7 @@ jobs:
 
       # 백엔드 리소스만 생성
       - name: Initialize Terraform
-        run: cd terraform && terraform init
+        run: cd terraform && terraform init 
 
       - name: Create backend resources
         run: |
