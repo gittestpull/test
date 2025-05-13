@@ -24,12 +24,7 @@ jobs:
       - name: Comment out backend config
         run: |
           cd terraform
-          sed -i 's/^  backend "s3" {/  # backend "s3" {/g' main.tf
-          sed -i 's/^    bucket/    # bucket/g' main.tf
-          sed -i 's/^    key/    # key/g' main.tf
-          sed -i 's/^    region/    # region/g' main.tf
-          sed -i 's/^    dynamodb_table/    # dynamodb_table/g' main.tf
-          sed -i 's/^    encrypt/    # encrypt/g' main.tf
+          sed -i '1,17s/^/#/' main.tf
 
       # 백엔드 리소스만 생성
       - name: Initialize Terraform
