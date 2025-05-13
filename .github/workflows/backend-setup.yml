@@ -1,0 +1,42 @@
+name: Terraform Backend Setup
+
+on:
+  workflow_dispatch:  # 수동 트리거만 허용
+
+jobs:
+  setup-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::634835101857:role/github-actions-role
+          aws-region: ap-northeast-2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      # 백엔드 설정 주석 처리
+      - name: Comment out backend config
+        run: |
+          cd terraform
+          sed -i 's/^  backend "s3" {/  # backend "s3" {/g' main.tf
+          sed -i 's/^    bucket/    # bucket/g' main.tf
+          sed -i 's/^    key/    # key/g' main.tf
+          sed -i 's/^    region/    # region/g' main.tf
+          sed -i 's/^    dynamodb_table/    # dynamodb_table/g' main.tf
+          sed -i 's/^    encrypt/    # encrypt/g' main.tf
+
+      # 백엔드 리소스만 생성
+      - name: Initialize Terraform
+        run: cd terraform && terraform init
+
+      - name: Create backend resources
+        run: |
+          cd terraform
+          terraform apply -auto-approve -target=aws_s3_bucket.terraform_state -target=aws_s3_bucket_versioning.versioning -target=aws_s3_bucket_server_side_encryption_configuration.encryption -target=aws_dynamodb_table.terraform_locks
+
+      # 이 워크플로우를 실행하면 이제 백엔드 리소스가 생성되었습니다!

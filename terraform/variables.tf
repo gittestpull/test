@@ -13,7 +13,7 @@ variable "vpc_name" {
 variable "vpc_cidr" {
   description = "CIDR block for the VPC"
   type        = string
-  default     = "10.10.0.0/16"
+  default     = "10.21.0.0/16"
 }
 
 variable "availability_zones" {
@@ -25,13 +25,13 @@ variable "availability_zones" {
 variable "private_subnets" {
   description = "CIDR blocks for the private subnets"
   type        = list(string)
-  default     = ["10.10.1.0/24", "10.10.2.0/24"]
+  default     = ["10.21.0.0/24", "10.21.1.0/24"]
 }
 
 variable "public_subnets" {
   description = "CIDR blocks for the public subnets"
   type        = list(string)
-  default     = ["10.10.101.0/24", "10.10.102.0/24"]
+  default     = ["10.21.32.0/24", "10.21.33.0/24"]
 }
 
 variable "cluster_name" {
